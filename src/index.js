@@ -12,7 +12,7 @@ import 'semantic-ui-css/semantic.min.css';
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware,ReduxThunk)(createStore)
  
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers,/* preloadedState, */
+    <Provider store={createStoreWithMiddleware(reducers,preloadedState,
       +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
          <BrowserRouter>
            <Routes/>
