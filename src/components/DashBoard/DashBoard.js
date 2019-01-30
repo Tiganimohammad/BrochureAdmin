@@ -16,7 +16,7 @@ class DashBoard extends Component {
         ]
           return(
             <div>
-    <Container style={{paddingTop:0.8 + 'em'}} >
+    <Container style={{paddingTop:20}} >
             <Menu>
     <Container>
       <Menu.Item as="h2" header>
