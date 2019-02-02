@@ -1,0 +1,32 @@
+{
+"productlist" : [
+{
+    "product_name":"Picanto",
+    "product_price":"120000 SDG",
+    "product_image":"http://madret.com/picanto.jpg",
+    "product_Qrcode":"http://madret.com/product.png",
+    "product_detailes":"The Picante interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
+},
+{
+    "product_name":"Ford",
+    "product_price":"140000 SDG",
+    "product_image":"http://madret.com/picanto.jpg",
+    "product_Qrcode":"http://madret.com/product.png",
+    "product_detailes":"The ford interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
+},
+{
+    "product_name":"Rio",
+    "product_price":"160000 SDG",
+    "product_image":"http://madret.com/picanto.jpg",
+    "product_Qrcode":"http://madret.com/product.png",
+    "product_detailes":"The Rio interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
+},
+{
+    "product_name":"Kia",
+    "product_price":"190000 SDG",
+    "product_image":"http://madret.com/picanto.jpg",
+    "product_Qrcode":"http://madret.com/product.png",
+    "product_detailes":"The Kia interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
+}
+]
+}

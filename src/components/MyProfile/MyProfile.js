@@ -1,10 +1,9 @@
 import React,{Component} from 'react';
 import { Form,Image,Button } from 'semantic-ui-react'
 
-
-
 class MyProfile extends Component {
    
+ 
   
   render(){
           return(
@@ -28,7 +27,7 @@ class MyProfile extends Component {
              </Form.Group>
              <br/>
              <Button  color='green'>Update MyProfile</Button> 
-             <Button  color='brown'>Print Company QRCode</Button>                       
+             <Button  color='pink'>Print Company QRCode</Button>                       
              </Form>
              </div>
     </div>    
