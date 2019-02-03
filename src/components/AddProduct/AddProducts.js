@@ -6,13 +6,11 @@ import { Form,Button,TextArea,Image} from 'semantic-ui-react'
 class AddProducts extends Component {
    
 
-    
-  
   render(){
   return(
     <div>
              <div>
-             <h1 className='ui center aligned header'>Add New Product</h1>
+             {/* <h1 className='ui center aligned header'>Add New Product</h1> */}
              <br/>
              <Image src='https://react.semantic-ui.com/images/wireframe/image.png' size='medium' floated='right' bordered/>
              <br/>
@@ -20,6 +18,7 @@ class AddProducts extends Component {
              <Form.Group unstackable widths={2}>
              <Form.Input label='Product Name' placeholder='Product Name' type='text' />
              <Form.Input label='Product Price' placeholder='Product Price' type='text'/>
+             <Form.Input></Form.Input>
              </Form.Group>
              <br/>
              <Form.Group widths={1}>

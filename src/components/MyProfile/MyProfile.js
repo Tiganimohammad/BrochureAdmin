@@ -1,40 +1,62 @@
 import React,{Component} from 'react';
-import { Form,Image,Button } from 'semantic-ui-react'
+import { Form,Image,Button,Header} from 'semantic-ui-react'
+import {connect} from 'react-redux';
+import {getMyProfile} from '../../actions';
+import ReactToPrint from "react-to-print";
+
+
 
 class MyProfile extends Component {
    
- 
+  componentWillMount(){
+    this.props.dispatch(getMyProfile())
+  }
+
   
   render(){
           return(
           <div>
-             <br/>
-             <Image src='https://react.semantic-ui.com/images/wireframe/image.png' size='medium' floated='right' bordered/>
-             <br/>
-             <div>
-             <Form>   
+             {
+              this.props.MyProfile.MyProfile && this.props.MyProfile.MyProfile.length > 0 ?  
+              this.props.MyProfile.MyProfile.map( (item,i) => ( 
+             <div key={i}>                
+             <Form> 
+               <div ref={el => (this.componentRef = el)}>
+               <Header size='huge'>{item.Company_Name}</Header>
+               <Image src={item.Company_Qrcode} size='medium' floated='left' rounded />             
+               </div>
              <Form.Group unstackable widths={2}>
-             <Form.Input label='Company Name' placeholder='Company Name' type='text' />
-             <Form.Input label='Company Address' placeholder='Company Address' type='text'/>
+             <Form.Input label='Company Name' placeholder='Company Name' type='text'  value={item.Company_Name}/>
+             <Form.Input label='Company Address' placeholder='Company Address' type='text' value={item.Company_Address}/>
              </Form.Group>
              <Form.Group>
-             <Form.Input label='Company PhoneNumber' placeholder='Company PhoneNumber' type='phone'/>
+             <Form.Input label='Company PhoneNumber' placeholder='Company PhoneNumber' type='phone'
+               value={item.Company_Phone_Number}
+             />
              </Form.Group>
-             <br/>
              <Form.Group unstackable widths={2}>
-             <Form.Input label='Bussiness Hour From' placeholder='From' type='time' />
-             <Form.Input label='Bussiness Hour To' placeholder='To' type='time' />
+             <Form.Input label='Bussiness Hour From' placeholder='From' type='text' value={item.Bussiness_Hour_To}/>
+             <Form.Input label='Bussiness Hour To' placeholder='To' type='text' value={item.Bussiness_Hour_From}/>
              </Form.Group>
-             <br/>
              <Button  color='green'>Update MyProfile</Button> 
-             <Button  color='pink'>Print Company QRCode</Button>                       
-             </Form>
-             </div>
-    </div>    
+             <ReactToPrint
+              trigger={() =><Button  color='pink'>Print Company QRCode</Button>}
+              content={() => this.componentRef}
+              />                      
+              </Form>
+              </div>
+              )) : null
+            }
+        </div>   
     );
-      }
+      
+}
 }
 
+function  mapStateToProps (state){
+  return {
+    MyProfile:state.MyProfile
+  }
+}
 
-
-export default MyProfile
+export default connect(mapStateToProps)(MyProfile)

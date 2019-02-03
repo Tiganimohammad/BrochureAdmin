@@ -27,6 +27,23 @@
     "product_image":"http://madret.com/picanto.jpg",
     "product_Qrcode":"http://madret.com/product.png",
     "product_detailes":"The Kia interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
+},
+{
+    "product_name":"Sentafia",
+    "product_price":"160000 SDG",
+    "product_image":"http://madret.com/picanto.jpg",
+    "product_Qrcode":"http://madret.com/product.png",
+    "product_detailes":"The Sentafia interior offers inviting style and comfort, with new seat cloth design and a deeper style of embossing on the door panel inserts. Once inside, you'll find plenty of space to stretch out and relax in the roomy cabin."
 }
+],
+"MyProfile" : [
+    {
+        "Company_Name":"Dal Motors",
+        "Company_Address":"Khartoum",
+        "Company_Phone_Number":"9000999990",
+        "Bussiness_Hour_To":"06:3:00 AM",
+        "Bussiness_Hour_From":"07:2:00 PM",
+        "Company_Qrcode":"http://madret.com/product.png"
+    }
 ]
-}
+}   

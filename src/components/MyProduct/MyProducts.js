@@ -43,8 +43,8 @@ class MyProducts extends Component {
     </Form.Group>
     <br/>
     <Form.Group widths={1}>
-    <Button type='submit' color='green'>Update Data</Button>
-    <Button type='submit' color='yellow'>Update Photo</Button>
+    <Button type='submit' color='green'>Update</Button>
+    <Button type='submit' color='yellow'>Select Photo</Button>
     </Form.Group>
   </Form>
       </Modal.Description>
