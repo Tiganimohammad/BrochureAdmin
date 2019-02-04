@@ -21,14 +21,15 @@ class Login extends Component {
              password:event.target.value
          })
      }
-     SubmitForm = (e) =>{
+     SubmitForm = (e) => {
         e.preventDefault();
+        console.log(this.state);
         this.props.dispatch(loginUser(this.state));
    }
 
    componentWillReceiveProps(nextProps){
     if(nextProps.user.login.isAuth){
-    this.props.history.push('/DashBoard');
+        this.props.history.push('/DashBoard');
     }
 }
     render (){   
@@ -45,7 +46,7 @@ class Login extends Component {
       <Grid.Column style={{ maxWidth: 450 }}>
         {
          <Header as='h2' color='blue' textAlign='center'>
-           Log-in to your account
+           Log-in To Your Account
         </Header> 
         }
         <Form size='large'  onSubmit={this.SubmitForm}>

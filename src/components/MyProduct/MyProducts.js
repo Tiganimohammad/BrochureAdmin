@@ -64,7 +64,7 @@ class MyProducts extends Component {
         </div>   
           <Form.Group widths={1}> 
          <ReactToPrint
-          trigger={() => <Button type='submit' color='pink' fluid >Print</Button>}
+          trigger={() => <Button type='submit' color='pink' fluid >Print Product QRCODE</Button>}
           content={() => this.componentRef}
          />
           </Form.Group> 

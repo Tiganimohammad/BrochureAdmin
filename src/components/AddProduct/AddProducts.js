@@ -18,10 +18,9 @@ class AddProducts extends Component {
              <Form.Group unstackable widths={2}>
              <Form.Input label='Product Name' placeholder='Product Name' type='text' />
              <Form.Input label='Product Price' placeholder='Product Price' type='text'/>
-             <Form.Input></Form.Input>
              </Form.Group>
              <br/>
-             <Form.Group widths={1}>
+             <Form.Group widths={2}>  
              <TextArea  autoHeight placeholder='Product Sepcification' rows={2} />
              </Form.Group>
              <br/>
