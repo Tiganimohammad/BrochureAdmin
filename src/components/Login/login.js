@@ -7,13 +7,13 @@ import {loginUser} from '../../actions';
 class Login extends Component {
 
     state = {
-        phone : '',
+        email : '',
         password: ''
     }
 
-    handlePhone = (event) =>{
+    handleEmail = (event) =>{
         this.setState({
-            phone:event.target.value
+          email:event.target.value
         })
      }  
      handlePassword = (event) =>{
@@ -23,7 +23,6 @@ class Login extends Component {
      }
      SubmitForm = (e) => {
         e.preventDefault();
-        console.log(this.state);
         this.props.dispatch(loginUser(this.state));
    }
 
@@ -51,9 +50,9 @@ class Login extends Component {
         }
         <Form size='large'  onSubmit={this.SubmitForm}>
           <Segment raised>
-            <Form.Input fluid icon='phone' iconPosition='left' placeholder='PhoneNumber' 
-              value={this.state.phone}
-              onChange={this.handlePhone}
+            <Form.Input fluid icon='mail' iconPosition='left' placeholder='Email' 
+              value={this.state.email}
+              onChange={this.handleEmail}
             />
             <Form.Input
               fluid
@@ -78,7 +77,7 @@ class Login extends Component {
 }
 
 function mapStateToProps (state){
-  console.log(state);
+  console.log(state)
     return {
         user:state.user
     }
