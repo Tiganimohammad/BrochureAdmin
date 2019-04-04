@@ -10,7 +10,7 @@ let axiosConfig = {
   
 
 export function loginUser(email,password){
-    const req = axios.post('https://89.163.221.56:8881/api/company/login',{email,password},
+    const req = axios.post('http://89.163.221.56:8881/api/company/login',{email,password},
     axiosConfig)
            .then(Response => console.log(Response))
 
