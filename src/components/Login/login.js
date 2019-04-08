@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 import {connect} from 'react-redux';
-import {loginUser} from '../../actions';
+import { loginUser } from '../../actions';
 
 
 class Login extends Component {
@@ -21,7 +21,7 @@ class Login extends Component {
              password:event.target.value
          })
      }
-     SubmitForm = (e) => {
+     SubmitForm = async (e) => {
         e.preventDefault();
         this.props.dispatch(loginUser(this.state));
    }
