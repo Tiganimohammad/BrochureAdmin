@@ -1,17 +1,16 @@
 import axios from 'axios';
 
   
-let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-    }
-  };
+// let axiosConfig = {
+//     headers: {
+//         'Content-Type': 'application/json',
+//         "Access-Control-Allow-Origin": "*",
+//     }
+//   };
   
 
 export function loginUser(email,password){
-    const req = axios.post('http://89.163.221.56:8881/api/company/login',{email,password},
-    axiosConfig)
+    const req = axios.post('http://89.163.221.56:8881/api/company/login',{email,password})
            .then(Response => console.log(Response))
 
     return{
