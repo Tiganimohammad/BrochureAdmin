@@ -1,25 +1,22 @@
-import axios from 'axios';
+import axios from '../axios'
 
-  
-let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
+export async function loginUser(credentials) {
+    try {
+        const response = await axios.post('/company/login', credentials)
+        return {
+            type:'USER_LOGIN',
+            payload: response.data
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            type:'USER_LOGIN_FAIL',
+            payload: 'Please check your internet connection.'
+        }
     }
-  };
-  
 
-export function loginUser(email,password){
-    const req = axios.post('http://89.163.221.56:8881/api/company/login',{email,password},
-    axiosConfig)
-           .then(Response => console.log(Response))
+}
 
-    return{
-        type:'USER_LOGIN',
-        payload:req
-    }
-}    
-  
 export function getProductsList(){
     const request = axios.get('http://localhost:3003/Productlist')
     .then(response => response.data);
