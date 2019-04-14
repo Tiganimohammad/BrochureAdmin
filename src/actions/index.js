@@ -1,21 +1,14 @@
-import axios from '../axios'
+import axios from 'axios'
 
-export async function loginUser(credentials) {
-    try {
-        const response = await axios.post('/company/login', credentials)
+export function loginUser(credentials) {
+        const req = axios.post('http://89.163.221.56:8881/api/company/login', credentials)
+        .then(response =>response.data)
         return {
             type:'USER_LOGIN',
-            payload: response.data
+            payload: req
         }
-    } catch (error) {
-        console.error(error)
-        return {
-            type:'USER_LOGIN_FAIL',
-            payload: 'Please check your internet connection.'
-        }
-    }
-
 }
+
 
 export function getProductsList(){
     const request = axios.get('http://localhost:3003/Productlist')
@@ -27,8 +20,9 @@ export function getProductsList(){
 }
 
 export function getMyProfile(){
-    const request = axios.get('http://localhost:3003/MyProfile')
-    .then(response => response.data);
+    const cid = localStorage.getItem('c_Id')
+    const request = axios.get(`http://89.163.221.56:8881/api/companies/${cid}`)
+    .then(response =>response.data);
     return {
     type:'GET_MyProfile',
     payload:request

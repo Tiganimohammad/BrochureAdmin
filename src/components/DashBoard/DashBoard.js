@@ -15,7 +15,7 @@ class DashBoard extends Component {
           { menuItem: 'My Products', render: () => <Tab.Pane><MyProducts/></Tab.Pane> },
         ]
           return(
-            <div>
+            <div>              
     <Container style={{paddingTop:20}} >
             <Menu>
     <Container>
@@ -38,6 +38,7 @@ class DashBoard extends Component {
 
           </div>
           );
+          
       }
 }
 

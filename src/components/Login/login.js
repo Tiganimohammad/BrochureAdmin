@@ -21,13 +21,15 @@ class Login extends Component {
              password:event.target.value
          })
      }
-     SubmitForm = async (e) => {
+     SubmitForm = (e) => {
         e.preventDefault();
         this.props.dispatch(loginUser(this.state));
    }
 
    componentWillReceiveProps(nextProps){
     if(nextProps.user.login.isAuth){
+        localStorage.setItem('accesstoken',nextProps.user.login.accessToken);
+        localStorage.setItem('c_Id',nextProps.user.login.companyId);
         this.props.history.push('/DashBoard');
     }
 }
@@ -77,8 +79,7 @@ class Login extends Component {
 }
 
 function mapStateToProps (state){
-  console.log(state)
-    return {
+  return {
         user:state.user
     }
 }

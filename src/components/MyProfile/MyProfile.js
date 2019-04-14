@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import { Form,Image,Button,Header,Modal} from 'semantic-ui-react'
+import { Form,Image,Button,Header,Modal,TextArea} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getMyProfile} from '../../actions';
-import ReactToPrint from "react-to-print";
+import ReactToPrint from 'react-to-print';
 
-
+   
 
 class MyProfile extends Component {
    
@@ -12,46 +12,76 @@ class MyProfile extends Component {
     this.props.dispatch(getMyProfile())
   }
 
-  
-  render(){
-          return(
-          <div>
-             {
-              this.props.MyProfile.MyProfile && this.props.MyProfile.MyProfile.length > 0 ?  
-              this.props.MyProfile.MyProfile.map( (item,i) => ( 
-             <div key={i}>                
+  renderCompanyProfile = (CompanyProfile) =>(
+  CompanyProfile.MyProfile?   
+   <div>
              <Form> 
+
+             <Image src={CompanyProfile.MyProfile.logo} size='small' bordered />
+
              <Form.Group unstackable widths={2}>
-             <Form.Input label='Company Name' placeholder='Company Name' type='text'  value={item.Company_Name}/>
-             <Form.Input label='Company Address' placeholder='Company Address' type='text' value={item.Company_Address}/>
+             <Form.Input label='Company Name' icon='building outline' placeholder='Company Name' type='text'  value={CompanyProfile.MyProfile.name}/>
+             <Form.Input label='Company Address' icon='address book' placeholder='Company Address' type='text' value={CompanyProfile.MyProfile.address}/>
              </Form.Group>
              <Form.Group>
-           
+      
              </Form.Group>
              <Form.Group unstackable widths={2}>
-             <Form.Input label='Bussiness Hour From' placeholder='From' type='text' value={item.Bussiness_Hour_To}/>
-             <Form.Input label='Bussiness Hour To' placeholder='To' type='text' value={item.Bussiness_Hour_From}/>
-             <Form.Input label='Company PhoneNumber' placeholder='Company PhoneNumber' type='phone'
-               value={item.Company_Phone_Number}
+             <Form.Input label='Bussiness Hour From' icon='time' placeholder='From' type='time' value={CompanyProfile.MyProfile.opensAt}/>
+             <Form.Input label='Bussiness Hour To' icon='time' placeholder='To' type='time' value={CompanyProfile.MyProfile.closesAt}/>
+             <Form.Input label='Company PhoneNumber' icon='phone' placeholder='Company PhoneNumber' type='phone'
+               value={CompanyProfile.MyProfile.phoneNumber}
              />
              </Form.Group>
+
+             <Form.Group unstackable widths={2}>
+             <Form.Input label='GooglePlayStore Link' icon='google play' placeholder='playStore link' type='text' value={CompanyProfile.MyProfile.playStoreUrl}/>
+             <Form.Input label='AppleStore Link'  icon='apple' placeholder='applestore link' type='text'
+               value={CompanyProfile.MyProfile.appStoreUrl}
+             />
+             <Form.Input label='Company Email' icon='mail' placeholder='company email' type='text'
+               value={CompanyProfile.MyProfile.email}
+             />
+             </Form.Group>
+
+
+             <Form.Group unstackable widths={3}>
+                 <Form.TextArea 
+                 placeholder='about company' 
+                 value={CompanyProfile.MyProfile.about}
+                 label="About Company"
+                 />
+
+             <Form.TextArea 
+                 placeholder='service'
+                 value={CompanyProfile.MyProfile.services}
+                 label="Company Service"
+                 />
+             </Form.Group>
+
+
+          
              <Button  color='green'>Update MyProfile</Button> 
 
                <Modal  centered={false} trigger={
-        <Button floated='left' color='purple'>Display QRCODE</Button>
-      } closeIcon>
+               <Button floated='left' color='purple'>Display QRCODE</Button>
+               }closeIcon>
     <Modal.Content image >
       <Modal.Description>
         <Form> 
         <div ref={el => (this.componentRef = el)}>
-        <Header as='h1' textAlign='center'>{item.Company_Name}</Header>
-          <Image  size='large' centered  src={item.Company_Qrcode} rounded/> 
+        <Header as='h1' textAlign='center'>{CompanyProfile.MyProfile.name}</Header>
+          <Image  size='large' centered  src={CompanyProfile.MyProfile.qr} rounded/> 
         </div>   
           <Form.Group widths={1}> 
-         <ReactToPrint
+         {/* <ReactToPrint
           trigger={() => <Button type='submit' color='pink' fluid >Print Company QRCODE</Button>}
           content={() => this.componentRef}
-         />
+         />  */}
+         {/* <ReactToPrint
+        trigger={() => <button>Print this out!</button>}
+        content={() => this.componentRef.current}
+      /> */}
           </Form.Group> 
          </Form>
       </Modal.Description>
@@ -59,12 +89,22 @@ class MyProfile extends Component {
   </Modal>
               </Form>
               </div>
-              )) : null
-            }
-        </div>   
-    );
-      
-}
+              :null 
+)
+
+
+
+
+render(){
+    let CompanyProfile = this.props.MyProfile;
+    return (   
+      <div>
+        {this.renderCompanyProfile(CompanyProfile)}
+      </div> 
+      )
+ }
+
+
 }
 
 function  mapStateToProps (state){
