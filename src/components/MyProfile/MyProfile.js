@@ -3,11 +3,35 @@ import { Form,Image,Button,Header,Modal,TextArea} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getMyProfile} from '../../actions';
 import ReactToPrint from 'react-to-print';
-
+import axios from 'axios';
    
 
 class MyProfile extends Component {
-   
+    state = {
+      selectedfile : null
+    }
+
+  logoSelectedHandler = event =>{
+    this.setState({
+      selectedfile:event.target.files[0]
+    });
+  }   
+
+  logoUploadHandler = event =>{
+     let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
+      }
+    };
+    const fd = new FormData();
+    fd.append('logo',this.state.selectedfile,this.state.selectedfile.name);
+    axios.put('http://89.163.221.56:8881/api/company/logo',fd,axiosConfig)
+    .then(res => {
+    console.log(res);
+    })   
+ }
+
   componentWillMount(){
     this.props.dispatch(getMyProfile())
   }
@@ -16,9 +40,16 @@ class MyProfile extends Component {
   CompanyProfile.MyProfile?   
    <div>
              <Form> 
-
-             <Image src={CompanyProfile.MyProfile.logo} size='small' bordered />
-
+             <Image src={CompanyProfile.MyProfile.logo} size='medium' rounded/>
+             <br/>
+             <br/>
+             {/* <Button  color='green'>Select Image</Button>  */}
+             <input type='file' onChange={this.logoSelectedHandler}/>
+             <br/>  
+             <br/> 
+             <Button  color='yellow' onClick={this.logoUploadHandler}>Update Photo</Button> 
+             <br/>
+             <br/> 
              <Form.Group unstackable widths={2}>
              <Form.Input label='Company Name' icon='building outline' placeholder='Company Name' type='text'  value={CompanyProfile.MyProfile.name}/>
              <Form.Input label='Company Address' icon='address book' placeholder='Company Address' type='text' value={CompanyProfile.MyProfile.address}/>

@@ -21,6 +21,7 @@ class Login extends Component {
              password:event.target.value
          })
      }
+     
      SubmitForm = (e) => {
         e.preventDefault();
         this.props.dispatch(loginUser(this.state));

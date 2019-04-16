@@ -21,7 +21,11 @@ class AddProducts extends Component {
              </Form.Group>
              <br/>
              <Form.Group widths={2}>  
-             <TextArea  autoHeight placeholder='Product Sepcification' rows={2} />
+             <Form.TextArea  
+             autoHeight 
+             placeholder='Product Sepcification' rows={2} 
+             label="Product Sepcification"
+             />
              </Form.Group>
              <br/>
              <Button  color='green'>Add Product</Button> 
