@@ -43,7 +43,6 @@ class MyProfile extends Component {
              <Image src={CompanyProfile.MyProfile.logo} size='medium' rounded/>
              <br/>
              <br/>
-             {/* <Button  color='green'>Select Image</Button>  */}
              <input type='file' onChange={this.logoSelectedHandler}/>
              <br/>  
              <br/> 
