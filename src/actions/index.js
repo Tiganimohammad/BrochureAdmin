@@ -1,12 +1,17 @@
 import axios from 'axios'
 
+
+
 export function loginUser(credentials) {
-        const req = axios.post('http://89.163.221.56:8881/api/company/login', credentials)
-        .then(response =>response.data)
+        const req = axios.post('http://89.163.221.56:8881/api/company/login',credentials)
+        .then(response => response.data)
         return {
             type:'USER_LOGIN',
             payload: req
-        }
+        }  
+
+
+       
 }
 
 

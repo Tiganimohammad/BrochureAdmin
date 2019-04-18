@@ -21,26 +21,26 @@ class Login extends Component {
             ...this.state.data,[e.target.name]:e.target.value
           }
         })
-     }  
+     }     
     
      
-     SubmitForm = (e) => {
+     SubmitForm =  (e) => {
        e.preventDefault()
         const errors = this.validate(this.state.data);
         this.setState({errors});
-        this.setState({loading:true});
         if(Object.keys(errors).length === 0){
+          this.setState({loading:true});
           this.props.dispatch(loginUser(this.state.data));
         }
    }
-
+        
    validate = (data) =>{
      const errors = {};
      if(typeof data["email"] !== "undefined"){
       let lastAtPos = data["email"].lastIndexOf('@');
       let lastDotPos = data["email"].lastIndexOf('.');
 
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && data["email"].indexOf('@@') == -1 && lastDotPos > 2 && (data["email"].length - lastDotPos) > 2)) {
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && data["email"].indexOf('@@') === -1 && lastDotPos > 2 && (data["email"].length - lastDotPos) > 2)) {
         errors.email = "Email is not valid";
       }
     }
@@ -105,21 +105,21 @@ class Login extends Component {
               onChange={this.handleonChange}
               id='password'
               name='password'
-            />
+            />  
             <span style={{color:"#ae5856"}}>
             {errors.password && errors.password}
             </span>
             </Form.Field>
-        
+            
             <Button type="submit" color='blue' fluid size='medium'>
               Login
             </Button>
           </Segment>
         </Form>
-      </Grid.Column>
-    </Grid>
-         </div>
-        );
+      </Grid.Column>  
+    </Grid> 
+         </div>  
+        ); 
     }   
 }
 

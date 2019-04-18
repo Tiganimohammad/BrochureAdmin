@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
-import { Form,Image,Button,Header,Modal,TextArea} from 'semantic-ui-react'
+import { Form,Image,Button,Header,Modal} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getMyProfile} from '../../actions';
-import ReactToPrint from 'react-to-print';
+// import ReactToPrint from 'react-to-print';
 import axios from 'axios';
    
 
