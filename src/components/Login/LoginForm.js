@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
-import { Button, Form, Grid, Header, Segment ,Input} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment ,Input,Message} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import { loginUser } from '../../actions';
-import classnames from 'classnames';
 
 class Login extends Component {
 
@@ -11,7 +10,7 @@ class Login extends Component {
           email : "",
           password:""
         },
-        loading:false,
+        loading:false, 
         errors:{}
     };
 
@@ -29,8 +28,7 @@ class Login extends Component {
         const errors = this.validate(this.state.data);
         this.setState({errors});
         if(Object.keys(errors).length === 0){
-          this.setState({loading:true});
-          this.props.dispatch(loginUser(this.state.data));
+          this.props.loginUser(this.state.data,this.props.history)
         }
    }
         
@@ -48,14 +46,7 @@ class Login extends Component {
      if(!data.password) errors.password = "Passwrod Can't Be empty";
      return errors;
    }
-
-   componentWillReceiveProps(nextProps){
-    if(nextProps.user.login.isAuth){
-        localStorage.setItem('accesstoken',nextProps.user.login.accessToken);
-        localStorage.setItem('c_Id',nextProps.user.login.companyId);
-        this.props.history.push('/DashBoard');
-    }
-}
+  
     render (){  
       const {data,errors} = this.state;  
         return( 
@@ -74,9 +65,8 @@ class Login extends Component {
            Log-in To Your Account
         </Header>         
         }
-        <Form size='large'  className={classnames('ui','form',{loading:this.state.loading})} onSubmit={this.SubmitForm}>
+        <Form size='large' onSubmit={this.SubmitForm}>
           <Segment raised>
-
           <Form.Field error={!!errors.email}>
           <Input 
               fluid icon='mail' 
@@ -115,6 +105,17 @@ class Login extends Component {
               Login
             </Button>
           </Segment>
+          {
+              this.props.user.login?  
+                <div>
+                   <Message negative  >
+                   <Message.Header>
+                        {this.props.user.login}
+                   </Message.Header>
+                  </Message>
+                </div>
+              :null 
+            } 
         </Form>
       </Grid.Column>  
     </Grid> 
@@ -124,10 +125,11 @@ class Login extends Component {
 }
 
 function mapStateToProps (state){
+    console.log(state);
   return {
         user:state.user
     }
 }
 
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, {loginUser})(Login);

@@ -1,13 +1,13 @@
 import React from 'react';
 import {Switch,Route} from 'react-router-dom';
-import Login from './components/Login/login';
+import LoginForm from './components/Login/LoginForm';
 import DashBoard from './components/DashBoard/DashBoard';
 
 
 const Routes = () => {
     return (
        <Switch>
-           <Route path="/" exact  component={Login} />
+           <Route path="/" exact  component={LoginForm} />
            <Route path="/DashBoard" exact  component={DashBoard} />
        </Switch>
        );
