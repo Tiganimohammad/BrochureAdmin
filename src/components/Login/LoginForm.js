@@ -100,8 +100,8 @@ class Login extends Component {
             {errors.password && errors.password}
             </span>
             </Form.Field>
-            
-            <Button type="submit" color='blue' fluid size='medium'>
+                       
+            <Button type="submit" color='blue' fluid size='medium' >
               Login
             </Button>
           </Segment>

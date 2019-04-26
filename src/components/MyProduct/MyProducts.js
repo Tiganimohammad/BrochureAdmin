@@ -3,22 +3,99 @@ import { Item,Button,Form,Image,Modal,TextArea,Header} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getProductsList} from '../../actions';
 import ReactToPrint from "react-to-print";
-
-
+import axios from "axios";
+import {UpdateProductProfile} from '../../actions';
 
 
 class MyProducts extends Component {
    
+     state = {
+      selectedfile : null,
+      uploadUrl:null,
+      id:"",
+      formdata:
+      {
+        name: null,
+        about: null,
+        price: null,
+        offerPrice:null,
+        playStoreUrl:null, 
+        appStoreUrl:null ,
+        photo:null
+      }
+     
+     }
+
+  
+   saveUpdatedProduct =(e)=>{
+    e.preventDefault()
+    console.log('id....'+this.state.id);
+    this.props.dispatch(UpdateProductProfile(this.state.formdata,this.state.id));
+  }
+
    componentWillMount(){
      this.props.dispatch(getProductsList())
    }
 
+
+  getProductId = (id) => {
+    let productObj = {};
+    let Updateproduct = this.props.productlist.productlist.Products;
+    Updateproduct.forEach((item,i) => {
+      if(item.id == id) {
+        productObj = {
+          name: item.name,
+          about: item.about,
+          price: item.price,
+          offerPrice: item.offerPrice,
+          playStoreUrl: item.playStoreUrl,
+          appStoreUrl: item.appStoreUrl,
+          photo: item.photo
+        };
+        this.setState({ formdata: productObj, id: id })
+      }
+    })
+  }
+
+
+   handleInput = (event,name) =>{
+    const newFormdata = {
+      ...this.state.formdata
+    }
+    newFormdata[name] = event.target.value
+    this.setState({
+        formdata:newFormdata
+    })
+}
+
+   logoSelectedHandler = event =>{
+    this.setState({
+      selectedfile:URL.createObjectURL(event.target.files[0]),
+      uploadUrl:event.target.files[0]
+    });
+  }   
+
+  logoUploadHandler = event =>{
+     let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
+      }
+    };
+    const fd = new FormData();
+    fd.append('photo',this.state.uploadUrl,this.state.uploadUrl.name);
+    axios.put('http://89.163.221.56:8881/api/company/products/',fd,axiosConfig)
+    .then(res => {
+    console.log(res);
+    })   
+ }
+
+
   
    render() {
-     console.log(this.props.productlist.productlist)
     return(
     <div>
-      {this.props.productlist.productlist?
+      {this.props.productlist.productlist ? 
       this.props.productlist.productlist.Products.map( (item,i) => (
      <Item.Group key={i}>
        <Item>
@@ -27,33 +104,82 @@ class MyProducts extends Component {
           <Item.Header>{item.name}</Item.Header>
           <Item.Meta>{item.about}</Item.Meta>
           <Modal centered={false} trigger={
-            <Button floated='left' color='blue'>More Detailes</Button>
+            <Button floated='left' color='blue'
+            onClick={this.getProductId.bind(this,item.id)}
+            >More Detailes</Button>
             } closeIcon>
-      <Modal.Header>Product Detailes</Modal.Header>
-      <Modal.Content image>
-        <Image wrapped size='large' src={item.photo} rounded/>
+      <Modal.Header><center>Product Detailes</center></Modal.Header>
+      <Modal.Content image scrolling>
         <Modal.Description>
+
+
         <Form>
-      <Form.Group  widths={1}>
-        <Form.Input label='Product Name' placeholder='Product Name' value={item.name} />
-        <Form.Input label='Product Price' placeholder='Product Price' value={item.price}/>
+        {
+        this.state.selectedfile ?
+        <Image src={this.state.selectedfile} size='medium' rounded centered/>
+        :
+        <Image src={item.photo} size='medium' rounded centered/>
+        } 
+             <br/>
+             <br/>
+             <input type='file' onChange={this.logoSelectedHandler}/>
+             <br/>  
+             <br/> 
+             <Button  color='green' onClick={this.logoUploadHandler} fluid>Update Photo</Button> 
+             <br/>
+             <br/> 
+      <Form.Group  unstackable widths={1} centered>
+        <Form.Input 
+          label='Product Name' 
+          placeholder='Product Name' 
+          value={this.state.formdata.name}
+          onChange={(event)=>this.handleInput(event,'name')}
+          />
+        <Form.Input 
+         label='Product Price' 
+         placeholder='Product Price' 
+         value={this.state.formdata.price}
+         onChange={(event)=>this.handleInput(event,'price')}
+         />
       </Form.Group>
       <Form.Group  widths={1}>
-        <Form.Input label='PlayStoreLink' placeholder='Product PlayStoreLink' value={item.playStoreUrl} />
-        <Form.Input label='AppleStoreLink' placeholder='Product AppleStoreLink' value={item.appStoreUrl}/>
-      </Form.Group>
+        <Form.Input 
+          label='PlayStoreLink' 
+          placeholder='Product PlayStoreLink' 
+          value={this.state.formdata.playStoreUrl}
+          onChange={(event)=>this.handleInput(event,'playStoreUrl')}
+          /> 
+        <Form.Input 
+          label='AppleStoreLink' 
+          placeholder='Product AppleStoreLink' 
+          value={this.state.formdata.appStoreUrl}
+          onChange={(event)=>this.handleInput(event,'appStoreUrl')}
+          />
+  
+      </Form.Group>  
+
       <Form.Group  widths={1}>
-        <Form.Input label='Product OfferPrice' placeholder='Product OfferPrice' value={item.offerPrice} />
-      </Form.Group>
+      <Form.Input 
+          label='OfferPrice' 
+          placeholder='Product OfferPrice' 
+          value={this.state.formdata.offerPrice}
+          onChange={(event)=>this.handleInput(event,'offerPrice')}
+          />
+      </Form.Group>   
+
+
       <br/>
       <Form.Group widths={1}>
-      <TextArea  autoHeight placeholder='Product Detailes' rows={10} value={item.about}/>
+      <TextArea   placeholder='Product Detailes' rows={10} 
+      value={this.state.formdata.about}
+      onChange={(event)=>this.handleInput(event,'about')}
+      />
       </Form.Group>
       <br/>
       <Form.Group widths={2}>
-      <Button type='submit' color='green'>Select Photo</Button>
-      <Button type='submit' color='yellow'>Upload Photo</Button>
-      <Button type='submit' color='blue'>Update Product</Button>
+      <Button type='submit' color='blue' fluid 
+        onClick={this.saveUpdatedProduct}
+      >Update Product</Button>
       </Form.Group>
     </Form>
         </Modal.Description>
@@ -94,6 +220,7 @@ class MyProducts extends Component {
    
 
 function  mapStateToProps (state){
+  console.log(state);
   return {
     productlist:state.productlist
   }

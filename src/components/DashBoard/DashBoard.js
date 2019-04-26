@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
-import {Container,Tab,Menu } from 'semantic-ui-react'
+import {Container,Tab,Menu,Button} from 'semantic-ui-react'
 import MyProducts from '../MyProduct/MyProducts';
 import MyProfile from '../MyProfile/MyProfile';
 import AddProducts from '../AddProduct/AddProducts';
-
 
 class DashBoard extends Component {
    
@@ -24,12 +23,14 @@ class DashBoard extends Component {
       </Menu.Item>
 
       <Menu.Menu position="right">
-        <Menu.Item as="a" name="register">
-          Logout
+        <Menu.Item name="logout">
+        <Button  onClick={this.signOut}
+         size='tiny' color='red'
+        >Exit</Button>
         </Menu.Item>
       </Menu.Menu>
     </Container>
-  </Menu>  
+  </Menu>     
   </Container>
 
   <Container style={{paddingTop:0.8 + 'em'}}>
@@ -40,6 +41,11 @@ class DashBoard extends Component {
           );
           
       }
+
+      signOut = () => {
+        localStorage.clear();
+        this.props.history.push('/');
+    }
 }
 
 

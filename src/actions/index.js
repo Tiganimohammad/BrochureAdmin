@@ -114,4 +114,33 @@ export function addProduct(productInfo){
 }
 }
 
+export function UpdateCompanyProfile(data){
+  console.log('data........'+data);
+  let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
+      }
+    };
+  const request = axios.put('http://89.163.221.56:8881/api/company',data,axiosConfig)
+  .then(response =>response.data);
+  return {
+  type:'Update_MyProfile',
+  payload:request
+}
+}
 
+export function UpdateProductProfile(data,pid){
+  let axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
+    }
+  };
+  const request = axios.put(`http://89.163.221.56:8881/api/company/products/${pid}`,data,axiosConfig)
+  .then(response =>response.data);
+  return {
+  type:'Update_Product',
+  payload:request
+}
+}

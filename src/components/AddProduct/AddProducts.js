@@ -14,12 +14,14 @@ class AddProducts extends Component {
       productplaylink:"",
       productapplelink:"",
       productabout:"",
+      uploadUrl:null,
       errors:{}
   }
             
 logoSelectedHandler = event =>{
   this.setState({
-    productimage:event.target.files[0]
+    productimage:URL.createObjectURL(event.target.files[0]),
+    uploadUrl:event.target.files[0]
   });
 } 
 
@@ -47,7 +49,7 @@ logoSelectedHandler = event =>{
        const isValid = Object.keys(errors).length === 0;
        if(isValid){
        const fd = new FormData();
-       fd.append('photo',this.state.productimage,this.state.productimage.name)
+       fd.append('photo',this.state.uploadUrl,this.state.uploadUrl.name)
        fd.append('name',this.state.productname);
        fd.append('price',this.state.productprice);
        fd.append('offerPrice',this.state.productofferprice);
@@ -56,7 +58,7 @@ logoSelectedHandler = event =>{
        fd.append('about',this.state.productabout);
        this.props.dispatch(addProduct(fd));
        }
-      }
+  }
 
       validate = () =>{
         const errors = {};
@@ -66,7 +68,7 @@ logoSelectedHandler = event =>{
         if(this.state.productplaylink === '') errors.productplaylink = "Product PlayLink Cant Be Empty";
         if(this.state.productapplelink === '') errors.productapplelink = "Product AppleLink Cant Be Empty";
         if(this.state.productabout === '') errors.productabout = "About Product Cant Be Empty";
-        return errors;
+        return errors; 
       }
 
   render(){
@@ -76,6 +78,8 @@ logoSelectedHandler = event =>{
              <Form onSubmit={this.handleSubmit}>
 
              <Image src={this.state.productimage} size='medium' centered rounded/>
+             <br/>
+             <br/>
              <input type='file' onChange={this.logoSelectedHandler}/>
             
              <Form.Group widths='equal'>
