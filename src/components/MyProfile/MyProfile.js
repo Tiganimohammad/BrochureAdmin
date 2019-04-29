@@ -1,8 +1,8 @@
 import React,{PureComponent} from 'react';
-import { Form,Image,Button,Header,Modal} from 'semantic-ui-react'
+import { Form,Image,Button,Header,Modal,Message} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getMyProfile,UpdateCompanyProfile} from '../../actions';
-// import ReactToPrint from 'react-to-print';
+import ReactToPrint from 'react-to-print';
 import axios from 'axios';
    
 
@@ -10,6 +10,8 @@ class MyProfile extends PureComponent {
     state = {
       selectedfile : null,
       uploadUrl:null,
+      isImageUploaded:null,
+      isUpdated:false,
       formdata :{
         name:'',
         address:'',
@@ -36,18 +38,21 @@ class MyProfile extends PureComponent {
   }   
 
   logoUploadHandler = event =>{
-     let axiosConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
-      }
-    };
-    const fd = new FormData();
-    fd.append('logo',this.state.uploadUrl,this.state.uploadUrl.name);
-    axios.put('http://89.163.221.56:8881/api/company/logo',fd,axiosConfig)
-    .then(res => {
-    console.log(res);
-    })   
+    if(this.state.uploadUrl){
+      let axiosConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
+        }
+      };
+      const fd = new FormData();
+      fd.append('logo',this.state.uploadUrl,this.state.uploadUrl.name);
+      axios.put('http://89.163.221.56:8881/api/company/logo',fd,axiosConfig)
+      .then(res => {
+             this.setState({isImageUploaded:res.data});
+             console.log(this.state.isImageUploaded);
+      }) 
+    } 
  }
 
    handleInput = (event,name) =>{
@@ -63,6 +68,7 @@ class MyProfile extends PureComponent {
    onSubmit =(e)=>{
      e.preventDefault()
      this.props.dispatch(UpdateCompanyProfile(this.state.formdata));
+     this.setState({isUpdated:true})
    }
     
 
@@ -91,24 +97,52 @@ class MyProfile extends PureComponent {
   }
 
 render(){
-    console.log(this.props);
     return (   
       <div>
-         <Form  onSubmit={this.onSubmit}> 
+        {
+              this.state.isImageUploaded?  
+                <div>
+                   <Message positive  >
+                   <Message.Header>
+                        logo Updated successfuly
+                   </Message.Header>
+                  </Message>
+                </div>
+              :null 
+        }
+        <br/>
+        <br/>
+         <Form> 
                {
                  this.state.selectedfile ?
                  <Image src={this.state.selectedfile} size='medium' rounded/>
                  :
                  <Image src={this.state.formdata.logo} size='medium' rounded/>
-               } 
+               }  
              <br/>
              <br/>
              <input type='file' onChange={this.logoSelectedHandler}/>
              <br/>  
              <br/> 
-             <Button  color='yellow' onClick={this.logoUploadHandler}>Update Photo</Button> 
+             {
+              this.state.isUpdated?  
+                <div>
+                   <Message positive  >
+                   <Message.Header>
+                        Data Updated successfuly
+                   </Message.Header>
+                  </Message>
+                </div>
+              :null 
+             }
+             <br/>  
+             <br/> 
+             <Button fluid color='yellow' onClick={this.logoUploadHandler}>Update Photo</Button> 
              <br/>
              <br/> 
+              </Form>
+             
+             <Form onSubmit={this.onSubmit}>
              <Form.Group unstackable widths={2}>
              
              <Form.Input 
@@ -222,22 +256,27 @@ render(){
         <Form> 
         <div ref={el => (this.componentRef = el)}>
          <Header as='h1' textAlign='center'>{this.state.formdata.name}</Header>
-          <Image  size='large' centered  src={this.state.formdata.qr} rounded/>  
+         <Image 
+          size='large'
+           centered  
+           src='http://89.163.221.56:8881/public/images/products/qr/9418f414-d773-4bf0-a3ae-61a63afdb604.png'
+            rounded/>  
         </div>   
           <Form.Group widths={1}> 
-         {/* <ReactToPrint
+
+         <ReactToPrint
           trigger={() => <Button type='submit' color='pink' fluid >Print Company QRCODE</Button>}
           content={() => this.componentRef}
-         />  */}
-         {/* <ReactToPrint
-        trigger={() => <button>Print this out!</button>}
-        content={() => this.componentRef.current}
-      /> */}
+         />
+
+       
+
           </Form.Group> 
          </Form>
       </Modal.Description>
      </Modal.Content>
   </Modal>
+  
               </Form>
       </div> 
       )

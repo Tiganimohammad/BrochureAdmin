@@ -1,17 +1,11 @@
 import axios from 'axios'
 
 
-
-
-
-
-
-
 export function loginUser(credentials, history) {
   return async (dispatch) => {
     try {
       const res = await axios.post('http://89.163.221.56:8881/api/company/login',credentials);
-      dispatch({ type: 'USER_LOGIN' });
+      dispatch({ type: 'USER_LOGIN'});
       localStorage.setItem('accesstoken',res.data.accessToken);
       localStorage.setItem('c_Id',res.data.companyId);
       history.push('/DashBoard');
@@ -24,59 +18,6 @@ export function loginUser(credentials, history) {
   };
 }
 
-
-// export const loginUser = (credentials) => {
-//     return dispatch => {
-//         axios.post('http://89.163.221.56:8881/api/company/login',credentials)
-//         .then((response)=>{
-//             dispatch({
-//                 type: 'USER_LOGIN',
-//                 payload: response
-//             })
-//         })
-//         .catch((error)=>{
-//             console.log("error"+error);
-//         })
-//     };
-// };
-
-
-// export const loginUser =(credentials) =>{
-//     console.log(credentials);
-//     return dispatch => {
-//         axios.post('http://89.163.221.56:8881/api/company/login',credentials)
-//         .then((response)=>{
-//             dispatch({
-//                 type: 'USER_LOGIN',
-//                 payload: response.data
-//             })
-//         })
-//         .catch((error)=>{
-//             console.log("error"+error);
-//             dispatch({
-//                 type: 'USER_LOGIN_FAIL',
-//                 payload: 'Invalid Email Or Password'
-//             })
-//         })
-//     };      
-// } 
-
-// export async function loginUser(credentials) {
-//     try {
-//         const response = await axios.post('http://89.163.221.56:8881/api/company/login', credentials)
-//         return {
-//             type:'USER_LOGIN',
-//             payload: response.data
-//         }
-//     } catch (error) { 
-//         console.error(error)
-//         return {
-//             type:'USER_LOGIN_FAIL',
-//             payload: error.data
-//         }
-//     }
-
-// }
 
 export function getProductsList(){
     const cid = localStorage.getItem('c_Id')
@@ -129,7 +70,7 @@ export function UpdateCompanyProfile(data){
   payload:request
 }
 }
-
+ 
 export function UpdateProductProfile(data,pid){
   let axiosConfig = {
     headers: {

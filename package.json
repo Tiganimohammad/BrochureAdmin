@@ -38,6 +38,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-to-print": "^2.1.0"
+    "react-to-print": "^2.1.1"
   }
 }

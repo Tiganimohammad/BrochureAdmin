@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Form,Button,Image,TextArea,Input} from 'semantic-ui-react'
+import { Form,Button,Image,TextArea,Message,Input} from 'semantic-ui-react'
 import {addProduct} from '../../actions';
 import {connect} from 'react-redux';
 
@@ -28,7 +28,7 @@ logoSelectedHandler = event =>{
     handleChange = (e) =>{
       if(!!this.state.errors[e.target.name])
       {
-        let errors = Object.assign({},this.state.errors);
+          let errors = Object.assign({},this.state.errors);
         delete errors[e.target.name]
         this.setState({
           [e.target.name]:e.target.value,errors
@@ -38,8 +38,7 @@ logoSelectedHandler = event =>{
           [e.target.name]:e.target.value
         })
       }
-     
-    }
+    }   
     
 
     handleSubmit = (e) =>{
@@ -69,12 +68,35 @@ logoSelectedHandler = event =>{
         if(this.state.productapplelink === '') errors.productapplelink = "Product AppleLink Cant Be Empty";
         if(this.state.productabout === '') errors.productabout = "About Product Cant Be Empty";
         return errors; 
-      }
+      }   
 
   render(){
     const {errors} = this.state;  
   return(
     <div>
+
+       {
+              this.props.Product.Product?  
+                <div>
+                    {this.props.Product.Product.message !=="Request failed with status code 409"?
+                    <Message positive>
+                    <Message.Header>
+                    Product Created Successfully
+                    </Message.Header>
+                   </Message>
+                    :
+                    <Message negative>
+                   <Message.Header>
+                     Product With this Name already Found
+                   </Message.Header>
+                  </Message>
+                    }
+                </div>
+              :null 
+        }
+        
+          <br/>
+          <br/>
              <Form onSubmit={this.handleSubmit}>
 
              <Image src={this.state.productimage} size='medium' centered rounded/>

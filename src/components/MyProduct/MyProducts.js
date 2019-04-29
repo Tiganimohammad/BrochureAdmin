@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Item,Button,Form,Image,Modal,TextArea,Header} from 'semantic-ui-react'
+import { Item,Button,Form,Image,Modal,TextArea,Header,Message} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {getProductsList} from '../../actions';
 import ReactToPrint from "react-to-print";
@@ -13,6 +13,8 @@ class MyProducts extends Component {
       selectedfile : null,
       uploadUrl:null,
       id:"",
+      show:false,
+      isImageUploaded:false,
       formdata:
       {
         name: null,
@@ -29,9 +31,11 @@ class MyProducts extends Component {
   
    saveUpdatedProduct =(e)=>{
     e.preventDefault()
-    console.log('id....'+this.state.id);
     this.props.dispatch(UpdateProductProfile(this.state.formdata,this.state.id));
-  }
+    this.setState({
+      show:true
+    })
+  } 
 
    componentWillMount(){
      this.props.dispatch(getProductsList())
@@ -42,7 +46,7 @@ class MyProducts extends Component {
     let productObj = {};
     let Updateproduct = this.props.productlist.productlist.Products;
     Updateproduct.forEach((item,i) => {
-      if(item.id == id) {
+      if(item.id === id) {
         productObj = {
           name: item.name,
           about: item.about,
@@ -50,9 +54,9 @@ class MyProducts extends Component {
           offerPrice: item.offerPrice,
           playStoreUrl: item.playStoreUrl,
           appStoreUrl: item.appStoreUrl,
-          photo: item.photo
-        };
-        this.setState({ formdata: productObj, id: id })
+        }; 
+        this.setState({ formdata: productObj, id: id ,show:false,isImageUploaded:false,
+        selectedfile:""})
       }
     })
   }
@@ -76,30 +80,38 @@ class MyProducts extends Component {
   }   
 
   logoUploadHandler = event =>{
+    event.preventDefault()
+    console.log('id....'+this.state.id);
+
      let axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('accesstoken') 
       }
     };
+    const pid = this.state.id;
     const fd = new FormData();
     fd.append('photo',this.state.uploadUrl,this.state.uploadUrl.name);
-    axios.put('http://89.163.221.56:8881/api/company/products/',fd,axiosConfig)
+    axios.put(`http://89.163.221.56:8881/api/company/products/${pid}/photo`,fd,axiosConfig)
     .then(res => {
     console.log(res);
+    this.setState({isImageUploaded:true});
     })   
  }
 
 
   
    render() {
+   
     return(
+      
     <div>
       {this.props.productlist.productlist ? 
       this.props.productlist.productlist.Products.map( (item,i) => (
      <Item.Group key={i}>
        <Item>
-        <Item.Image size='small' src={item.photo} rounded/>
+         <Item.Image size='small' src={item.photo} rounded/>
+         
         <Item.Content>
           <Item.Header>{item.name}</Item.Header>
           <Item.Meta>{item.about}</Item.Meta>
@@ -107,13 +119,11 @@ class MyProducts extends Component {
             <Button floated='left' color='blue'
             onClick={this.getProductId.bind(this,item.id)}
             >More Detailes</Button>
-            } closeIcon>
+            } 
+            closeIcon>
       <Modal.Header><center>Product Detailes</center></Modal.Header>
       <Modal.Content image scrolling>
         <Modal.Description>
-
-
-        <Form>
         {
         this.state.selectedfile ?
         <Image src={this.state.selectedfile} size='medium' rounded centered/>
@@ -128,7 +138,21 @@ class MyProducts extends Component {
              <Button  color='green' onClick={this.logoUploadHandler} fluid>Update Photo</Button> 
              <br/>
              <br/> 
-      <Form.Group  unstackable widths={1} centered>
+            <Form>
+            {
+                <div>
+                    {this.state.isImageUploaded?
+                    <Message positive>
+                    <Message.Header>
+                       Logo Uploaded Successfully
+                    </Message.Header>
+                   </Message>
+                    :null  
+                    }
+                </div>
+        }
+            <Form.Group  unstackable widths={1} centered>
+           
         <Form.Input 
           label='Product Name' 
           placeholder='Product Name' 
@@ -168,18 +192,30 @@ class MyProducts extends Component {
       </Form.Group>   
 
 
-      <br/>
+      <br/>  
       <Form.Group widths={1}>
       <TextArea   placeholder='Product Detailes' rows={10} 
       value={this.state.formdata.about}
       onChange={(event)=>this.handleInput(event,'about')}
       />
       </Form.Group>
-      <br/>
+      <br/> 
+      {
+                <div>
+                    {this.state.show?
+                    <Message positive>
+                    <Message.Header>
+                       Product Updated Successfully
+                    </Message.Header>
+                   </Message>
+                    :null  
+                    }
+                </div>
+        }
+      <br/> 
       <Form.Group widths={2}>
       <Button type='submit' color='blue' fluid 
-        onClick={this.saveUpdatedProduct}
-      >Update Product</Button>
+        onClick={this.saveUpdatedProduct}>Update Product</Button>
       </Form.Group>
     </Form>
         </Modal.Description>
@@ -190,7 +226,7 @@ class MyProducts extends Component {
     <Modal  centered={false} trigger={
           <Button floated='left' color='purple'>Display QRCODE</Button>
         } closeIcon>
-      <Modal.Content image >
+      <Modal.Content image>
         <Modal.Description>
           <Form> 
           <div ref={el => (this.componentRef = el)}>
@@ -203,7 +239,7 @@ class MyProducts extends Component {
             content={() => this.componentRef}
            />
             </Form.Group> 
-           </Form>
+          </Form>
         </Modal.Description>
        </Modal.Content>
     </Modal>
