@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Button, Form, Grid, Header, Segment ,Input,Message} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment ,Input,Message,Image, Modal} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import { loginUser } from '../../actions';
 
@@ -28,10 +28,16 @@ class Login extends Component {
         const errors = this.validate(this.state.data);
         this.setState({errors});
         if(Object.keys(errors).length === 0){
-          this.props.loginUser(this.state.data,this.props.history)
+          const isonline = navigator.onLine;
+          if(isonline){
+            this.props.loginUser(this.state.data,this.props.history)
+          }else{
+           alert('Dear User No Internet Connection Available');
+          }
         }
    }
         
+   
    validate = (data) =>{
      const errors = {};
      if(typeof data["email"] !== "undefined"){

@@ -55,7 +55,14 @@ logoSelectedHandler = event =>{
        fd.append('playStoreUrl',this.state.productplaylink);
        fd.append('appStoreUrl',this.state.productapplelink);
        fd.append('about',this.state.productabout);
-       this.props.dispatch(addProduct(fd));
+
+       const isonline = navigator.onLine;
+       if(isonline){
+        this.props.dispatch(addProduct(fd));
+      }else{
+       alert('Dear User No Internet Connection Available');
+      }
+
        }
   }
 
@@ -74,8 +81,7 @@ logoSelectedHandler = event =>{
     const {errors} = this.state;  
   return(
     <div>
-
-       {
+       { 
               this.props.Product.Product?  
                 <div>
                     {this.props.Product.Product.message !=="Request failed with status code 409"?

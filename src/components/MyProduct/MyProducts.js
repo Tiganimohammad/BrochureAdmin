@@ -11,7 +11,7 @@ class MyProducts extends Component {
    
      state = {
       selectedfile : null,
-      uploadUrl:null,
+      uploadUrl:null,   
       id:"",
       show:false,
       isImageUploaded:false,
@@ -31,10 +31,16 @@ class MyProducts extends Component {
   
    saveUpdatedProduct =(e)=>{
     e.preventDefault()
-    this.props.dispatch(UpdateProductProfile(this.state.formdata,this.state.id));
+    const isonline = navigator.onLine;
+    if(isonline){
+      this.props.dispatch(UpdateProductProfile(this.state.formdata,this.state.id));
     this.setState({
       show:true
     })
+   }else{
+    alert('Dear User No Internet Connection Available');
+   }
+   
   } 
 
    componentWillMount(){

@@ -67,9 +67,15 @@ class MyProfile extends PureComponent {
 
    onSubmit =(e)=>{
      e.preventDefault()
-     this.props.dispatch(UpdateCompanyProfile(this.state.formdata));
-     this.setState({isUpdated:true})
-   }
+     const isonline = navigator.onLine;
+     if(isonline){
+      this.props.dispatch(UpdateCompanyProfile(this.state.formdata));
+      this.setState({isUpdated:true})
+    }else{
+     alert('Dear User No Internet Connection Available');
+    }
+  }
+   
     
 
   componentWillMount(){
@@ -257,10 +263,10 @@ render(){
         <div ref={el => (this.componentRef = el)}>
          <Header as='h1' textAlign='center'>{this.state.formdata.name}</Header>
          <Image 
-          size='large'
-           centered  
+           size='large' 
+           centered         
            src='http://89.163.221.56:8881/public/images/products/qr/9418f414-d773-4bf0-a3ae-61a63afdb604.png'
-            rounded/>  
+           rounded/>  
         </div>   
           <Form.Group widths={1}> 
 
@@ -269,8 +275,7 @@ render(){
           content={() => this.componentRef}
          />
 
-       
-
+    
           </Form.Group> 
          </Form>
       </Modal.Description>
